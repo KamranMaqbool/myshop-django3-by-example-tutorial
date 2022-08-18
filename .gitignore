@@ -131,3 +131,4 @@ dmypy.json
 .pyre/
 description.txt
 .DS_Store
+notes.text
