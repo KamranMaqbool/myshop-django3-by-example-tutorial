@@ -10,11 +10,17 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+import braintree
 import os
 from pathlib import Path
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Initialise environment variables
+env = environ.Env()
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 
 # Quick-start development settings - unsuitable for production
@@ -41,6 +47,7 @@ INSTALLED_APPS = [
     'shop.apps.ShopConfig',
     'cart.apps.CartConfig',
     'orders.apps.OrdersConfig',
+    'payment.apps.PaymentConfig',
 ]
 
 MIDDLEWARE = [
@@ -85,10 +92,10 @@ DATABASES = {
     # }
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'myshop',
-        'HOST': 'localhost',
-        'USER': 'root',
-        'PASSWORD': '12345678'
+        'NAME': env('DATABASE_NAME'),
+        'HOST': env('DB_HOST'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD')
     }
 }
 
@@ -140,3 +147,19 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 CART_SESSION_ID = 'cart'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+# Braintree settings
+BRAINTREE_MERCHANT_ID = env('BRAINTREE_MERCHANT_ID')    # Merchant ID
+BRAINTREE_PUBLIC_KEY = env('BRAINTREE_PUBLIC_KEY')      # Public Key
+BRAINTREE_PRIVATE_KEY = env('BRAINTREE_PRIVATE_KEY')    # Private key
+
+
+BRAINTREE_CONF = braintree.Configuration(
+    braintree.Environment.Sandbox,
+    BRAINTREE_MERCHANT_ID,
+    BRAINTREE_PUBLIC_KEY,
+    BRAINTREE_PRIVATE_KEY
+)
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
