@@ -19,8 +19,6 @@ def order_create(request):
     cart = Cart(request)
     if request.method == 'POST':
         form = OrderCreateForm(request.POST)
-        import pdb
-        pdb.set_trace()
         if form.is_valid():
             order = form.save()
             for item in cart:

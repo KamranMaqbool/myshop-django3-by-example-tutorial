@@ -10,8 +10,6 @@ gateway = braintree.BraintreeGateway(settings.BRAINTREE_CONF)
 
 
 def payment_process(request):
-    import pdb
-    pdb.set_trace()
     order_id = request.session.get('order_id')
     order = get_object_or_404(Order, id=order_id)
     total_cost = order.get_total_cost()
@@ -41,7 +39,7 @@ def payment_process(request):
     else:
         # generate token
         client_token = gateway.client_token.generate()
-        return render(request, 'payment/process.html', {'client_toke': client_token})
+        return render(request, 'payment/process.html', {'order': order, 'client_toke': client_token})
 
 
 def payment_done(request):

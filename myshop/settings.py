@@ -150,9 +150,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 # Braintree settings
-BRAINTREE_MERCHANT_ID = env('BRAINTREE_MERCHANT_ID')    # Merchant ID
-BRAINTREE_PUBLIC_KEY = env('BRAINTREE_PUBLIC_KEY')      # Public Key
-BRAINTREE_PRIVATE_KEY = env('BRAINTREE_PRIVATE_KEY')    # Private key
+BRAINTREE_MERCHANT_ID = env('BRAINTREE_MERCHANT_ID')
+BRAINTREE_PUBLIC_KEY = env('BRAINTREE_PUBLIC_KEY')
+BRAINTREE_PRIVATE_KEY = env('BRAINTREE_PRIVATE_KEY')
 
 
 BRAINTREE_CONF = braintree.Configuration(
@@ -161,5 +161,12 @@ BRAINTREE_CONF = braintree.Configuration(
     BRAINTREE_PUBLIC_KEY,
     BRAINTREE_PRIVATE_KEY
 )
+
+# BRAINTREE_CONF = braintree.Configuration(
+#     environment=braintree.Environment.Sandbox,
+#     merchant_id=BRAINTREE_MERCHANT_ID,
+#     public_key=BRAINTREE_PUBLIC_KEY,
+#     private_key=BRAINTREE_PRIVATE_KEY,
+# )
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
